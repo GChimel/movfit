@@ -1,0 +1,94 @@
+export default function DashboardExample() {
+  return (
+    // <div className="w-[750px] h-[450px] rounded-2xl bg-[#1E1E1E] shadow-2xl flex overflow-hidden border border-[#2c3742]">
+    <div className="w-full md:w-[750px] h-auto md:h-[450px] rounded-2xl bg-[#1E1E1E] shadow-2xl flex flex-col md:flex-row overflow-hidden border border-[#2c3742] mx-auto">
+      {/* Sidebar */}
+      {/* <aside className="w-48 bg-[#1E1E1E] flex flex-col p-4 gap-4 "> */}
+      <aside className="w-full md:w-48 bg-[#1E1E1E] flex flex-col p-4 gap-4">
+        <span className="text-lime-400 font-bold text-2xl ">movefit</span>
+        <div className="bg-[#303132] h-6 rounded" />
+        <div className="bg-[#303132] h-6 w-16 rounded" />
+        <div className="bg-[#303132] h-6 rounded" />
+        <div className="bg-[#303132] h-6 w-16 rounded" />
+      </aside>
+      {/* Main Content */}
+      {/* <main className="flex-1 p-4 flex flex-col justify-end"> */}
+      <main className="flex-1 p-4 flex flex-col justify-end">
+        <div className="mt-auto mb-2 flex justify-end">
+          <div className="bg-lime-400 w-16 h-6 rounded" />
+        </div>
+        <div className="flex gap-2 flex-col bg-[#303132] p-6 rounded-xl">
+          <div className="bg-[#1E1E1E] h-10 w-40 rounded" />
+          <div className="bg-[#1E1E1E] h-4 w-80 rounded" />
+          <div className="bg-[#1E1E1E] h-4 w-80 rounded" />
+          <div className="bg-[#1E1E1E] h-4 w-40 rounded" />
+          <div className="flex gap-2">
+            {/* Revenue Card */}
+            <div className="bg-[#1E1E1E] rounded-xl p-6 w-64 shadow-lg">
+              <div className="text-gray-400 text-xs mb-2">Revenue</div>
+              <div className="flex items-end gap-2">
+                <span className="text-2xl font-bold">45,000</span>
+                <span className="text-lime-400 text-xs">+3%</span>
+              </div>
+              {/* Mock Chart */}
+              <svg
+                width="100%"
+                height="60"
+                viewBox="0 0 100 40"
+                className="mt-4"
+              >
+                <defs>
+                  <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#a2d260" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#a2d260" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <polyline
+                  fill="url(#rev)"
+                  stroke="#a2d260"
+                  strokeWidth="2"
+                  points="0,35 10,30 20,15 30,20 40,10 50,15 60,20 70,18 80,22 90,20 100,25 100,40 0,40"
+                />
+              </svg>
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <span>Jan</span>
+                <span>Fev</span>
+                <span>Mar</span>
+              </div>
+            </div>
+            {/* Profit Card */}
+            <div className="bg-[#1E1E1E] rounded-xl p-6 w-64 shadow-lg">
+              <div className="text-gray-400 text-xs mb-2">Profit</div>
+              <div className="flex items-end gap-2">
+                <span className="text-2xl font-bold">60,000</span>
+                <span className="text-lime-400 text-xs">+10%</span>
+              </div>
+              {/* Mock Bar Chart */}
+              <svg
+                width="100%"
+                height="60"
+                viewBox="0 0 100 40"
+                className="mt-4"
+              >
+                <rect x="5" y="30" width="8" height="10" fill="#a2d260" />
+                <rect x="20" y="20" width="8" height="20" fill="#a2d260" />
+                <rect x="35" y="15" width="8" height="25" fill="#a2d260" />
+                <rect x="50" y="10" width="8" height="30" fill="#a2d260" />
+                <rect x="65" y="5" width="8" height="35" fill="#a2d260" />
+                <rect x="80" y="2" width="8" height="38" fill="#a2d260" />
+              </svg>
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <span>Jan</span>
+                <span>Fev</span>
+                <span>Mar</span>
+                <span>Abr</span>
+                <span>Mai</span>
+                <span>Jun</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
