@@ -1,20 +1,16 @@
 "use client";
 
 import assets from "@/app/assets/images";
+import api from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import graphIcon from "../../public/icons/bar-chart.svg";
 import infoIcon from "../../public/icons/info-circle.svg";
 import lockIcon from "../../public/icons/lock.svg";
-import DashboardExample from "./components/dashboard";
-
-interface Testimonial {
-  id: string;
-  content: string;
-  author: string;
-  role?: string;
-  image?: string;
-}
+import DashboardExample from "../components/dashboard";
+import { ResponseTestimonial } from "./api/auth/testimonials/route";
 
 const desc =
   "Uma ferramenta notável com suporte excepcional. Não poderia pedir mais.";
@@ -72,46 +68,42 @@ const gallery = [
 ];
 
 export default function Home() {
-  // const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [testimonials, setTestimonials] = useState<ResponseTestimonial[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // console.log(testimonials);
-  // console.log(isLoading);
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await api("/auth/testimonials");
 
-  // useEffect(() => {
-  //   fetchTestimonials();
-  // }, []);
-
-  // const fetchTestimonials = async () => {
-  //   try {
-  //     const response = await fetch("/api/testimonials");
-  //     const data = await response.json();
-  //     setTestimonials(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("Falha ao buscar depoimentos");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+        setTestimonials(response.data);
+      } catch (error) {
+        console.error(error);
+        toast.error("Falha ao buscar depoimentos");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchTestimonials();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#080F17] text-white flex flex-col scroll-smooth">
+    <div className="min-h-screen bg-background text-white flex flex-col scroll-smooth">
       {/* Header */}
-      <header className="fixed top-0 z-50 w-full px-4 py-3 scroll-mt-24 flex items-center justify-between bg-[#080F17] border-b border-[#232b33]">
+      <header className="fixed top-0 z-50 w-full px-4 py-3 scroll-mt-24 flex items-center justify-between bg-background border-b border-secoundary-gray">
         <div className="flex items-center gap-14">
-          <span className="text-lime-400 font-bold  text-xl">movefit</span>
+          <span className="text-primary-green font-bold  text-xl">movefit</span>
           <nav className="hidden md:flex gap-6 text-sm">
-            <Link href="#inicio" className="hover:text-lime-400">
+            <Link href="#inicio" className="hover:text-primary-green">
               Início
             </Link>
-            <Link href="#beneficios" className="hover:text-lime-400">
+            <Link href="#beneficios" className="hover:text-primary-green">
               Benefícios
             </Link>
-            <Link href="#depoimentos" className="hover:text-lime-400">
+            <Link href="#depoimentos" className="hover:text-primary-green">
               Depoimentos
             </Link>
-            <Link href="#galeria" className="hover:text-lime-400">
+            <Link href="#galeria" className="hover:text-primary-green">
               Galeria
             </Link>
           </nav>
@@ -119,14 +111,15 @@ export default function Home() {
         <div className="flex gap-2">
           <Link
             href="/login"
-            className="px-4 py-1 rounded bg-transparent  hover:text-[#181f26] transition hover:bg-white"
+            className="px-4 py-1 rounded bg-transparent  hover:text-primary-gray transition hover:bg-white"
           >
             Login
           </Link>
 
           <Link
-            href="#"
-            className="px-4 py-1 rounded bg-lime-400 text-[#181f26] font-semibold hover:bg-lime-300 transition"
+            href="/register"
+            title="Criar uma conta"
+            className="px-4 py-1 rounded bg-primary-green text-primary-gray font-semibold hover:bg-lime-300 transition"
           >
             Teste grátis
           </Link>
@@ -155,16 +148,16 @@ export default function Home() {
           </p>
           <div className="flex gap-4 justify-center mb-40">
             <Link
-              href="#"
-              title="Teste grátis"
-              className="px-6 py-2 rounded bg-lime-400 text-[#181f26] font-semibold hover:bg-lime-300 transition"
+              href="/register"
+              title="Criar uma conta"
+              className="px-6 py-2 rounded bg-primary-green text-primary-gray font-semibold hover:bg-lime-300 transition"
             >
               Teste grátis
             </Link>
             <Link
               href="#"
               title="Fale conosco"
-              className="px-6 py-2 rounded border border-white text-white hover:bg-white hover:text-[#181f26] transition"
+              className="px-6 py-2 rounded border border-white text-white hover:bg-white hover:text-primary-gray transition"
             >
               Fale conosco
             </Link>
@@ -179,57 +172,102 @@ export default function Home() {
         </div>
 
         {/* Benefícios */}
-        <section id="beneficios" className="py-16 px-4 bg-[#080F17]">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8">Benefícios</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {benefits.map((b, i) => (
-              <div
-                key={i}
-                className="bg-[#121820] rounded-lg p-6 flex flex-col gap-2 border border-[#232b33]"
-              >
-                <span className="text-3xl mb-2" aria-hidden>
-                  {b.icon}
-                </span>
-                <h3 className="font-semibold text-lg mb-1">{b.title}</h3>
-                <p className="text-gray-400 text-sm">{b.desc}</p>
-              </div>
-            ))}
+        <section id="beneficios" className="py-16 px-4 bg-background">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8">Benefícios</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {benefits.map((b, i) => (
+                <div
+                  key={i}
+                  className="bg-secoundary-background rounded-lg p-6 flex flex-col gap-2 border border-secoundary-gray"
+                >
+                  <span className="text-3xl mb-2" aria-hidden>
+                    {b.icon}
+                  </span>
+                  <h3 className="font-semibold text-lg mb-1">{b.title}</h3>
+                  <p className="text-gray-400 text-sm">{b.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Depoimentos */}
+        <section id="depoimentos" className="py-16 px-4 bg-background">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8  text-white">
+              O que dizem nossos usuários
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[400px] overflow-y-auto">
+              {testimonials.length === 0 ? (
+                <div className="bg-secoundary-background rounded-lg p-6 flex flex-col gap-2 border border-secoundary-gray text-white">
+                  <span className="text-xl mb-2 text-primary-green">
+                    Sem depoimentos
+                  </span>
+                  <p className="text-gray-400 text-sm">
+                    "Registre-se para deixar um depoimento"
+                  </p>
+                </div>
+              ) : (
+                testimonials.map((t, i) => (
+                  <div
+                    key={i}
+                    className="bg-secoundary-background rounded-lg p-6 gap-2 flex flex-col border border-secoundary-gray text-white"
+                  >
+                    <span className="text-xl text-primary-green">
+                      {t.user.name}
+                    </span>
+                    <div className="break-words">
+                      <p
+                        title={t.content}
+                        className="text-gray-400 text-sm"
+                        style={{ overflowWrap: "break-word" }}
+                      >
+                        "{t.content}"
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </section>
 
         {/* Galeria de imagens */}
-        <section id="galeria" className="py-16 px-4 bg-[#080F17]">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8">
-            Galeria de imagens
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
-            {gallery.map((src, i) => (
-              <div
-                key={i}
-                className="rounded-lg overflow-hidden border-2 border-[#232b33] hover:border-lime-400 transition"
-              >
-                <Image
-                  src={src}
-                  alt={`Imagem de trineo ${i + 1}`}
-                  width={300}
-                  height={200}
-                  className="object-cover w-full h-40"
-                />
-              </div>
-            ))}
+        <section id="galeria" className="py-16 px-4 bg-background">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8">
+              Galeria de imagens
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {gallery.map((src, i) => (
+                <div
+                  key={i}
+                  className="rounded-lg overflow-hidden border-2 border-secoundary-gray hover:border-primary-green transition"
+                >
+                  <Image
+                    src={src}
+                    alt={`Imagem de trineo ${i + 1}`}
+                    width={300}
+                    height={200}
+                    className="object-cover w-full h-40"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-6 px-4 bg-[#080F17] border-t border-[#232b33] flex flex-col md:flex-row items-center justify-between gap-4">
-        <span className="text-lime-400  font-bold font-sans text-3xl">
+      <footer className="w-full py-6 px-4 bg-background border-t border-secoundary-gray flex flex-col md:flex-row items-center justify-between gap-4">
+        <span className="text-primary-green  font-bold font-sans text-3xl">
           movefit
         </span>
         <Link
           href="#"
           title="Fale conosco"
-          className="px-6 py-2 rounded border border-white text-white hover:bg-white hover:text-[#181f26] transition"
+          className="px-6 py-2 rounded border border-white text-white hover:bg-white hover:text-primary-gray transition"
         >
           Fale conosco
         </Link>

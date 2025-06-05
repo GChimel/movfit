@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Toaster } from "react-hot-toast";
+import ClientSessionProvider from "./clientSessionProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +29,19 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${plusJakartaSans.variable} antialiased bg-background text-white`}
       >
-        {children}
+        <ClientSessionProvider>
+          {children}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+              },
+            }}
+          />
+        </ClientSessionProvider>
       </body>
     </html>
   );

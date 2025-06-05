@@ -1,8 +1,28 @@
 import { prisma } from "@/lib/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { User } from "@prisma/client";
 import { compare } from "bcrypt";
-import { NextAuthOptions } from "next-auth";
+import { DefaultSession, NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+declare module "next-auth" {
+  interface User {
+    role?: string;
+  }
+  interface Session {
+    user: {
+      id: string;
+      role?: string;
+    } & DefaultSession["user"];
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    role?: string;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -20,6 +40,7 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
+
         if (!user || !user?.password) {
           throw new Error("Invalid credentials");
         }
@@ -37,5 +58,21 @@ export const authOptions: NextAuthOptions = {
   pages: { signIn: "/login" },
   debug: process.env.NODE_ENV === "development",
   session: { strategy: "jwt" },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user as User) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user!.id = token.id;
+        session.user!.role = token.role;
+      }
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
 };

@@ -1,34 +1,34 @@
 export default function DashboardExample() {
   return (
-    // <div className="w-[750px] h-[450px] rounded-2xl bg-[#1E1E1E] shadow-2xl flex overflow-hidden border border-[#2c3742]">
-    <div className="w-full md:w-[750px] h-auto md:h-[450px] rounded-2xl bg-[#1E1E1E] shadow-2xl flex flex-col md:flex-row overflow-hidden border border-[#2c3742] mx-auto">
+    // <div className="w-[750px] h-[450px] rounded-2xl bg-forth-gray shadow-2xl flex overflow-hidden border border-[#2c3742]">
+    <div className="w-full md:w-[750px] h-auto md:h-[450px] rounded-2xl bg-forth-gray shadow-2xl flex flex-col md:flex-row overflow-hidden border border-[#2c3742] mx-auto">
       {/* Sidebar */}
-      {/* <aside className="w-48 bg-[#1E1E1E] flex flex-col p-4 gap-4 "> */}
-      <aside className="w-full md:w-48 bg-[#1E1E1E] flex flex-col p-4 gap-4">
-        <span className="text-lime-400 font-bold text-2xl ">movefit</span>
-        <div className="bg-[#303132] h-6 rounded" />
-        <div className="bg-[#303132] h-6 w-16 rounded" />
-        <div className="bg-[#303132] h-6 rounded" />
-        <div className="bg-[#303132] h-6 w-16 rounded" />
+      {/* <aside className="w-48 bg-forth-gray flex flex-col p-4 gap-4 "> */}
+      <aside className="w-full md:w-48 bg-forth-gray flex flex-col p-4 gap-4">
+        <span className="text-primary-green font-bold text-2xl ">movefit</span>
+        <div className="bg-tertiary-gray h-6 rounded" />
+        <div className="bg-tertiary-gray h-6 w-16 rounded" />
+        <div className="bg-tertiary-gray h-6 rounded" />
+        <div className="bg-tertiary-gray h-6 w-16 rounded" />
       </aside>
       {/* Main Content */}
       {/* <main className="flex-1 p-4 flex flex-col justify-end"> */}
       <main className="flex-1 p-4 flex flex-col justify-end">
         <div className="mt-auto mb-2 flex justify-end">
-          <div className="bg-lime-400 w-16 h-6 rounded" />
+          <div className="bg-primary-green w-16 h-6 rounded" />
         </div>
-        <div className="flex gap-2 flex-col bg-[#303132] p-6 rounded-xl">
-          <div className="bg-[#1E1E1E] h-10 w-40 rounded" />
-          <div className="bg-[#1E1E1E] h-4 w-80 rounded" />
-          <div className="bg-[#1E1E1E] h-4 w-80 rounded" />
-          <div className="bg-[#1E1E1E] h-4 w-40 rounded" />
+        <div className="flex gap-2 flex-col bg-tertiary-gray p-6 rounded-xl">
+          <div className="bg-forth-gray h-10 w-40 rounded" />
+          <div className="bg-forth-gray h-4 w-80 rounded" />
+          <div className="bg-forth-gray h-4 w-80 rounded" />
+          <div className="bg-forth-gray h-4 w-40 rounded" />
           <div className="flex gap-2">
             {/* Revenue Card */}
-            <div className="bg-[#1E1E1E] rounded-xl p-6 w-64 shadow-lg">
+            <div className="bg-forth-gray rounded-xl p-6 w-64 shadow-lg">
               <div className="text-gray-400 text-xs mb-2">Revenue</div>
               <div className="flex items-end gap-2">
                 <span className="text-2xl font-bold">45,000</span>
-                <span className="text-lime-400 text-xs">+3%</span>
+                <span className="text-primary-green text-xs">+3%</span>
               </div>
               {/* Mock Chart */}
               <svg
@@ -57,11 +57,11 @@ export default function DashboardExample() {
               </div>
             </div>
             {/* Profit Card */}
-            <div className="bg-[#1E1E1E] rounded-xl p-6 w-64 shadow-lg">
+            <div className="bg-forth-gray rounded-xl p-6 w-64 shadow-lg">
               <div className="text-gray-400 text-xs mb-2">Profit</div>
               <div className="flex items-end gap-2">
                 <span className="text-2xl font-bold">60,000</span>
-                <span className="text-lime-400 text-xs">+10%</span>
+                <span className="text-primary-green text-xs">+10%</span>
               </div>
               {/* Mock Bar Chart */}
               <svg
