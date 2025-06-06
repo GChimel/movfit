@@ -1,10 +1,11 @@
 "use client";
 
+import { Button } from "@/components/button";
 import Modal from "@/components/modal";
+import { Redirect } from "@/components/redirect";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -42,6 +43,7 @@ export default function LoginPage() {
   const {
     register: registerForgotPassword,
     handleSubmit: handleSubmitForgotPassword,
+    setValue: setValueForgotPassword,
     formState: {
       errors: errorsForgotPassword,
       isLoading: isLoadingForgotPassword,
@@ -83,6 +85,8 @@ export default function LoginPage() {
       await api.post("/forgot-password", data);
       toast.success("Instruções de redefinição de senha enviadas");
       setForgotPassword(false);
+      setCredentialError(false);
+      setValueForgotPassword("email", "");
     } catch (error) {
       console.error("Error details:", error);
       toast.error("Erro inesperado");
@@ -140,35 +144,32 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center">
-            <div className="text-sm">
-              <Link
-                href="/register"
-                className="font-medium text-sm lg:text-base text-primary-green hover:text-lime-600 underline"
-              >
-                Ainda não tenho uma conta!
-              </Link>
-            </div>
+          <div className="flex items-center justify-center ">
+            <Redirect
+              title="Criar conta"
+              content="Ainda não tenho uma conta!"
+              link="/register"
+            />
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm lg:text-base rounded-md bg-primary-green text-primary-gray cursor-pointer font-bold hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
-            >
-              {isLoading ? "Entrando..." : "Entrar"}
-            </button>
-          </div>
+          <Button
+            type="submit"
+            title={isLoading ? "Entrando..." : "Entrar"}
+            disabled={isLoading}
+            className="w-full font-semibold"
+          >
+            {isLoading ? "Entrando..." : "Entrar"}
+          </Button>
 
           {credentialError && (
             <div className="flex items-center justify-center">
-              <button
+              <Button
+                type="button"
+                variant="ghost"
                 onClick={() => setForgotPassword(true)}
-                className="font-medium text-sm lg:text-base text-primary-green  hover:text-lime-600"
               >
-                Esqueceu sua senha?
-              </button>
+                Redefinir senha
+              </Button>
             </div>
           )}
         </form>
@@ -181,32 +182,33 @@ export default function LoginPage() {
             onSubmit={handleSubmitForgotPassword(
               handleSubmitForgotPasswordEmail
             )}
+            className="flex flex-col gap-2"
           >
             <p>
               Informe seu e-mail para receber um link para recuperar sua senha
             </p>
 
-            <div className="mt-4">
-              <input
-                id="forgot-password-email"
-                type="email"
-                placeholder="E-mail"
-                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm"
-                {...registerForgotPassword("email", { required: true })}
-              />
-              {errorsForgotPassword.email && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errorsForgotPassword.email.message}
-                </p>
-              )}
-            </div>
-            <button
-              disabled={isLoadingForgotPassword}
+            <input
+              id="forgot-password-email"
+              type="email"
+              placeholder="E-mail"
+              className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm"
+              {...registerForgotPassword("email", { required: true })}
+            />
+            {errorsForgotPassword.email && (
+              <p className="mt-1 text-sm text-red-600">
+                {errorsForgotPassword.email.message}
+              </p>
+            )}
+            <Button
+              className="w-full font-semibold mt-2"
               type="submit"
-              className="group relative w-full mt-4 flex justify-center py-2 px-4 border border-transparent text-sm rounded-md bg-primary-green text-primary-gray cursor-pointer font-bold hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
+              title={
+                isLoadingForgotPassword ? "Enviando..." : "Recuperar senha"
+              }
             >
               {isLoadingForgotPassword ? "Enviando..." : "Recuperar senha"}
-            </button>
+            </Button>
           </form>
         </Modal>
       </div>

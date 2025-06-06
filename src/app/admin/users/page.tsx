@@ -1,6 +1,7 @@
 "use client";
 
 import AdminHeader from "@/components/adminHeader";
+import { Button } from "@/components/button";
 import api from "@/lib/api";
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -16,7 +17,7 @@ export default function AdminUsersPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await api.get("/auth/users");
+        const response = await api.get("/users");
         setUsers(response.data);
         setIsLoading(false);
         toast.success("Usuários carregados com sucesso");
@@ -68,20 +69,21 @@ export default function AdminUsersPage() {
         </h1>
         <div className="max-w-4xl w-full  max-h-10/12 overflow-auto">
           <div className="mb-4 flex flex-wrap justify-between items-center gap-4">
-            <button
-              title="Exportar para CSV"
+            <Button
+              disabled={isLoading}
               type="button"
+              variant="default"
+              title="Clique para exportar para CSV"
               onClick={exportToCSV}
-              className="px-4 py-2 bg-primary-green text-primary-gray rounded font-semibold hover:bg-lime-600"
             >
               Exportar para CSV
-            </button>
+            </Button>
 
             <div className="flex gap-2">
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="bg-forth-gray rounded px-2 py-1 text-sm"
+                className="bg-forth-gray rounded px-2 h-9 py-1 text-sm"
               >
                 <option value="">Todos</option>
                 <option value="USER">USER</option>

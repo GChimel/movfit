@@ -1,16 +1,23 @@
 "use client";
 
 import assets from "@/app/assets/images";
+import { Button } from "@/components/button";
 import api from "@/lib/api";
+import { LogOutIcon } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import graphIcon from "../../public/icons/bar-chart.svg";
 import infoIcon from "../../public/icons/info-circle.svg";
 import lockIcon from "../../public/icons/lock.svg";
 import DashboardExample from "../components/dashboard";
-import { ResponseTestimonial } from "./api/auth/testimonials/route";
+import { ResponseTestimonial } from "./api/testimonials/route";
+
+const whatsLink =
+  "https://wa.me/5549988754177?text=Olá, vim pelo teste técnico do Gustavo!";
 
 const desc =
   "Uma ferramenta notável com suporte excepcional. Não poderia pedir mais.";
@@ -68,13 +75,20 @@ const gallery = [
 ];
 
 export default function Home() {
+  const { data: session } = useSession();
   const [testimonials, setTestimonials] = useState<ResponseTestimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.push("/");
+  };
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await api("/auth/testimonials");
+        const response = await api("/testimonials");
 
         setTestimonials(response.data);
       } catch (error) {
@@ -94,35 +108,73 @@ export default function Home() {
         <div className="flex items-center gap-14">
           <span className="text-primary-green font-bold  text-xl">movefit</span>
           <nav className="hidden md:flex gap-6 text-sm">
-            <Link href="#inicio" className="hover:text-primary-green">
+            <Link
+              title="Ir para o início"
+              href="#inicio"
+              className="hover:text-primary-green"
+            >
               Início
             </Link>
-            <Link href="#beneficios" className="hover:text-primary-green">
+            <Link
+              title="Ir para a sessão de beneficios"
+              href="#beneficios"
+              className="hover:text-primary-green"
+            >
               Benefícios
             </Link>
-            <Link href="#depoimentos" className="hover:text-primary-green">
+            <Link
+              title="Ir para a sessão de depoimentos"
+              href="#depoimentos"
+              className="hover:text-primary-green"
+            >
               Depoimentos
             </Link>
-            <Link href="#galeria" className="hover:text-primary-green">
+            <Link
+              title="Ir para a sessão de galeria"
+              href="#galeria"
+              className="hover:text-primary-green"
+            >
               Galeria
             </Link>
           </nav>
         </div>
         <div className="flex gap-2">
-          <Link
-            href="/login"
-            className="px-4 py-1 rounded bg-transparent  hover:text-primary-gray transition hover:bg-white"
-          >
-            Login
-          </Link>
-
-          <Link
-            href="/register"
-            title="Criar uma conta"
-            className="px-4 py-1 rounded bg-primary-green text-primary-gray font-semibold hover:bg-lime-300 transition"
-          >
-            Teste grátis
-          </Link>
+          {session ? (
+            <>
+              <Button
+                type="button"
+                title="Sair"
+                variant="ghost"
+                onClick={handleLogout}
+                className="gap-2"
+              >
+                Sair
+                <LogOutIcon size={20} />
+              </Button>
+              <Button
+                type="button"
+                title="Minha conta"
+                variant="default"
+                href="/testimonials"
+              >
+                Minha conta
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button type="button" title="Login" variant="ghost" href="/login">
+                Login
+              </Button>
+              <Button
+                type="button"
+                title="Teste grátis"
+                variant="default"
+                href="/register"
+              >
+                Teste grátis
+              </Button>
+            </>
+          )}
         </div>
       </header>
 
@@ -147,20 +199,24 @@ export default function Home() {
             facilidade e eficiência.
           </p>
           <div className="flex gap-4 justify-center mb-40">
-            <Link
+            <Button
+              className="font-semibold px-6 py-2 h-12"
+              variant="default"
               href="/register"
-              title="Criar uma conta"
-              className="px-6 py-2 rounded bg-primary-green text-primary-gray font-semibold hover:bg-lime-300 transition"
+              title="Teste grátis"
             >
               Teste grátis
-            </Link>
-            <Link
-              href="#"
+            </Button>
+            <Button
               title="Fale conosco"
-              className="px-6 py-2 rounded border border-white text-white hover:bg-white hover:text-primary-gray transition"
+              className="px-6 py-2 h-12"
+              variant="outline"
+              href={whatsLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Fale conosco
-            </Link>
+            </Button>
           </div>
         </section>
 
@@ -264,13 +320,16 @@ export default function Home() {
         <span className="text-primary-green  font-bold font-sans text-3xl">
           movefit
         </span>
-        <Link
-          href="#"
+        <Button
           title="Fale conosco"
-          className="px-6 py-2 rounded border border-white text-white hover:bg-white hover:text-primary-gray transition"
+          className="px-6 py-2 h-12"
+          variant="outline"
+          href={whatsLink}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Fale conosco
-        </Link>
+        </Button>
       </footer>
     </div>
   );

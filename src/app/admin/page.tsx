@@ -1,7 +1,7 @@
 "use client";
 
 import AdminHeader from "@/components/adminHeader";
-import Link from "next/link";
+import { Button } from "@/components/button";
 
 export default function AdminPage() {
   return (
@@ -18,13 +18,13 @@ export default function AdminPage() {
             <p className="text-gray-400 text-sm mb-4 text-center">
               Exporte e gerencie os depoimentos .
             </p>
-            <Link
+            <Button
               title="Acessar depoimentos"
               href="/admin/testimonials"
-              className="px-4 py-2 rounded bg-primary-green text-primary-gray font-semibold hover:bg-lime-300 transition"
+              className="font-semibold"
             >
               Acessar
-            </Link>
+            </Button>
           </div>
           <div className="bg-primary-gray rounded-lg p-6 border border-secoundary-gray flex flex-col items-center">
             <span className="text-3xl mb-2">👤</span>
@@ -32,13 +32,13 @@ export default function AdminPage() {
             <p className="text-gray-400 text-sm mb-4 text-center">
               Exporte e gerencie os usuários cadastrados.
             </p>
-            <Link
-              title="Acessar usuários"
+            <Button
+              title="Acessar usuário"
               href="/admin/users"
-              className="px-4 py-2 rounded bg-primary-green text-primary-gray font-semibold hover:bg-lime-300 transition"
+              className="font-semibold"
             >
               Acessar
-            </Link>
+            </Button>
           </div>
         </div>
       </main>

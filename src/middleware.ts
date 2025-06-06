@@ -11,20 +11,43 @@ export default withAuth(
 
     if (isAuthPage) {
       if (isAuth) {
-        return NextResponse.redirect(new URL("/admin", req.url));
+        // Redirect to appropriate page based on role
+        const redirectUrl =
+          token?.role === "ADMIN" ? "/admin" : "/testimonials";
+        return NextResponse.redirect(new URL(redirectUrl, req.url));
       }
       return null;
     }
 
-    if (!isAuth && req.nextUrl.pathname.startsWith("/admin")) {
-      let from = req.nextUrl.pathname;
-      if (req.nextUrl.search) {
-        from += req.nextUrl.search;
+    // Protect testimonials route
+    if (req.nextUrl.pathname.startsWith("/testimonials")) {
+      if (!isAuth) {
+        let from = req.nextUrl.pathname;
+        if (req.nextUrl.search) {
+          from += req.nextUrl.search;
+        }
+        return NextResponse.redirect(
+          new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
+        );
+      }
+    }
+
+    // Protect admin routes
+    if (req.nextUrl.pathname.startsWith("/admin")) {
+      if (!isAuth) {
+        let from = req.nextUrl.pathname;
+        if (req.nextUrl.search) {
+          from += req.nextUrl.search;
+        }
+        return NextResponse.redirect(
+          new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
+        );
       }
 
-      return NextResponse.redirect(
-        new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
-      );
+      // Check if user is admin
+      if (token?.role !== "ADMIN") {
+        return NextResponse.redirect(new URL("/testimonials", req.url));
+      }
     }
 
     return NextResponse.next();
@@ -37,5 +60,10 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin/:path*", "/login", "/forgot-password"],
+  matcher: [
+    "/admin/:path*",
+    "/login",
+    "/forgot-password",
+    "/testimonials/:path*",
+  ],
 };

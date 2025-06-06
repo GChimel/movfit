@@ -2,6 +2,7 @@ import { LogOutIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "./button";
 
 export default function AdminHeader() {
   const router = useRouter();
@@ -16,29 +17,25 @@ export default function AdminHeader() {
       <Link
         title="Página de administração"
         href="/admin"
-        className="text-primary-green cursor-pointer font-bold text-lg font-sans"
+        className="text-primary-green cursor-pointer font-bold text-xl font-sans"
       >
         movefit admin
       </Link>
 
       <div className="flex gap-2">
-        <button
-          type="button"
+        <Button
           title="Sair"
+          type="button"
+          variant="ghost"
           onClick={handleLogout}
-          className="flex cursor-pointer gap-2 items-center px-4 py-1 rounded bg-transparent hover:text-primary-gray transition hover:bg-white"
+          className="gap-2"
         >
           Sair
           <LogOutIcon size={20} />
-        </button>
-
-        <Link
-          href="/"
-          title="Voltar ao site"
-          className="px-4 py-1 cursor-pointer  rounded bg-primary-green text-primary-gray font-semibold hover:bg-lime-300 transition"
-        >
-          Voltar ao site
-        </Link>
+        </Button>
+        <Button type="button" title="Minha conta" variant="default" href="/">
+          Página inícial
+        </Button>
       </div>
     </header>
   );

@@ -1,10 +1,11 @@
 "use client";
 
+import { Button } from "@/components/button";
+import { Redirect } from "@/components/redirect";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,7 +40,7 @@ export default function RegisterPage() {
     try {
       setIsLoading(true);
 
-      await api.post("/auth/register", data);
+      await api.post("/register", data);
 
       const result = await signIn("credentials", {
         email: data.email,
@@ -136,26 +137,22 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <Link
-              href="/login"
-              title="Link para tela de login"
-              className="font-medium text-primary-green hover:text-lime-600 underline text-sm lg:text-base text-center w-full"
-            >
-              Já tenho uma conta
-            </Link>
+          <div className="flex items-center justify-center ">
+            <Redirect
+              title="Já tenho uma conta"
+              content="Já tenho uma conta"
+              link="/login"
+            />
           </div>
 
-          <div>
-            <button
-              type="submit"
-              title={isLoading ? "Registrando..." : "Registrar"}
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm rounded-md bg-primary-green text-primary-gray cursor-pointer font-bold hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 lg:text-base"
-            >
-              {isLoading ? "Registrando..." : "Registrar"}
-            </button>
-          </div>
+          <Button
+            type="submit"
+            title={isLoading ? "Criando sua conta..." : "Criar conta"}
+            disabled={isLoading}
+            className="w-full font-semibold"
+          >
+            {isLoading ? "Criando sua conta..." : "Criar conta"}
+          </Button>
         </form>
       </div>
     </div>

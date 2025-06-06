@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { isAdmin } from "@/utils/isAdmin";
 import { Testimonial } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -54,12 +53,6 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  const session = await isAdmin();
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const validation = z
     .object({
       id: z.string({ message: "Informe o id!" }),
@@ -88,20 +81,14 @@ export async function DELETE(request: Request) {
   return NextResponse.json({ success: true }, { status: 200 });
 }
 
-export async function PUT(req: Request) {
-  const session = await isAdmin();
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
+export async function PUT(request: Request) {
   const validation = z
     .object({
       id: z.string({ message: "Informe o id!" }),
       content: z.string({ message: "Informe o conteudo!" }),
       userId: z.string({ message: "Informe o id do usuário!" }),
     })
-    .safeParse(await req.json());
+    .safeParse(await request.json());
 
   if (!validation.success) {
     return new Response(validation.error.message, { status: 400 });

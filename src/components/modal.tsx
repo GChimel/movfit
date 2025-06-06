@@ -28,7 +28,8 @@ export default function Modal({
           <h2 className="text-lg font-bold text-primary-green">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition"
+            title="Fechar"
+            className="text-gray-400 cursor-pointer hover:text-white transition"
             aria-label="Fechar modal"
           >
             <X size={20} />

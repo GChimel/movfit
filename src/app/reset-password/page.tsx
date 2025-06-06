@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/button";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -54,7 +55,10 @@ export default function ResetPasswordPage() {
         <p className="mt-2 text-center text-sm lg:text-base text-gray-400">
           Defina sua nova senha de acesso
         </p>
-        <form onSubmit={handleSubmit(resetPassword)}>
+        <form
+          onSubmit={handleSubmit(resetPassword)}
+          className="flex flex-col gap-2"
+        >
           <input
             type="password"
             placeholder="Nova senha"
@@ -66,13 +70,14 @@ export default function ResetPasswordPage() {
               {errors.password.message}
             </p>
           )}
-          <button
+
+          <Button
             type="submit"
-            title="Alterar senha"
-            className="group relative w-full mt-4 flex justify-center py-2 px-4 border border-transparent text-sm rounded-md bg-primary-green text-primary-gray cursor-pointer font-bold hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
+            className="w-full font-semibold mt-2"
+            title="Alterar sua senha"
           >
             Alterar senha
-          </button>
+          </Button>
         </form>
       </div>
     </div>
