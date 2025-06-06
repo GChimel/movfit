@@ -12,7 +12,7 @@ export default function AdminPage() {
           Gestão Administrativa
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-3xl">
-          <div className="bg-primary-gray rounded-lg p-6 border border-secoundary-gray flex flex-col items-center">
+          <div className="bg-primary-gray rounded-md p-6 border border-secoundary-gray flex flex-col items-center">
             <span className="text-3xl mb-2">💬</span>
             <h2 className="font-semibold text-lg mb-2">Depoimentos</h2>
             <p className="text-gray-400 text-sm mb-4 text-center">
@@ -26,7 +26,7 @@ export default function AdminPage() {
               Acessar
             </Button>
           </div>
-          <div className="bg-primary-gray rounded-lg p-6 border border-secoundary-gray flex flex-col items-center">
+          <div className="bg-primary-gray rounded-md p-6 border border-secoundary-gray flex flex-col items-center">
             <span className="text-3xl mb-2">👤</span>
             <h2 className="font-semibold text-lg mb-2">Usuários</h2>
             <p className="text-gray-400 text-sm mb-4 text-center">

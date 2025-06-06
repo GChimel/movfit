@@ -83,25 +83,35 @@ export default function AdminUsersPage() {
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="bg-forth-gray rounded px-2 h-9 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 h-9 py-1 text-sm"
               >
-                <option value="">Todos</option>
-                <option value="USER">USER</option>
-                <option value="ADMIN">ADMIN</option>
+                <option value="" title="Sem filtro">
+                  Todos
+                </option>
+                <option value="USER" title="Filtrar por usuário">
+                  USER
+                </option>
+                <option value="ADMIN" title="Filtrar por administrador">
+                  ADMIN
+                </option>
               </select>
 
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as "asc" | "desc")}
-                className="bg-forth-gray rounded px-2 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 text-sm"
               >
-                <option value="asc">A-Z</option>
-                <option value="desc">Z-A</option>
+                <option value="asc" title="Ordenar de A-Z">
+                  A-Z
+                </option>
+                <option value="desc" title="Ordenar de Z-A">
+                  Z-A
+                </option>
               </select>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-lg shadow-sm">
+          <div className="overflow-hidden rounded-md shadow-sm">
             <table className="min-w-full divide-y divide-gray-900">
               <thead className="bg-forth-gray">
                 <tr>
@@ -145,7 +155,7 @@ export default function AdminUsersPage() {
                         title={user.role}
                         className="px-6 py-4 w-20 whitespace-nowrap"
                       >
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-md bg-green-100 text-green-800">
                           {user.role}
                         </span>
                       </td>

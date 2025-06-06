@@ -3,6 +3,7 @@
 import { ResponseTestimonial } from "@/app/api/testimonials/route";
 import AdminHeader from "@/components/adminHeader";
 import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import Modal from "@/components/modal";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -185,34 +186,45 @@ export default function AdminTestimonialsPage() {
             </div>
 
             <div className="flex gap-2">
-              <input
+              <Input
                 type="text"
-                placeholder="Buscar por nome ou conteúdo..."
-                className="bg-forth-gray w-80 text-sm px-3 py-1 rounded"
+                variant="dark"
+                placeholder="Buscar por nome ou depoimento..."
                 value={search}
+                className="min-w-60"
                 onChange={(e) => setSearch(e.target.value)}
               />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-forth-gray rounded h-9 px-2 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 text-sm"
               >
-                <option value="createdAt">Data</option>
-                <option value="name">Nome</option>
-                <option value="content">Conteúdo</option>
+                <option value="createdAt" title="Filtrar por data">
+                  Data
+                </option>
+                <option value="name" title="Filtrar por nome">
+                  Nome
+                </option>
+                <option value="content" title="Filtrar por depoimento">
+                  Depoimento
+                </option>
               </select>
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-                className="bg-forth-gray rounded px-2 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 text-sm"
               >
-                <option value="asc">A-Z</option>
-                <option value="desc">Z-A</option>
+                <option value="asc" title="Ordenar de A-Z">
+                  A-Z
+                </option>
+                <option value="desc" title="Ordenar de Z-A">
+                  Z-A
+                </option>
               </select>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-lg shadow-sm">
+          <div className="overflow-hidden rounded-md shadow-sm">
             <table className="min-w-full divide-y divide-gray-900">
               <thead className="bg-forth-gray">
                 <tr>
@@ -311,17 +323,15 @@ export default function AdminTestimonialsPage() {
           onSubmit={handleSubmit(handleSubmitForm)}
           className="flex flex-col gap-2"
         >
-          <input
+          <Input
             {...register("content")}
+            id="content"
             type="text"
             placeholder="Depoimento"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm"
+            error={errors.content?.message}
+            label="content"
+            className="rounded-md"
           />
-          {errors.content && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.content.message}
-            </p>
-          )}
 
           <Button
             type="submit"
@@ -353,7 +363,7 @@ export default function AdminTestimonialsPage() {
         <div className="flex justify-end mt-2">
           <button
             onClick={() => handleDelete(isDeletingId!)}
-            className="px-4 py-2 rounded bg-red-600 cursor-pointer text-red-100 font-semibold hover:bg-red-700 hover:text-red-500"
+            className="px-4 py-2 rounded-md bg-red-600 cursor-pointer text-red-100 font-semibold hover:bg-red-700 hover:text-red-500"
           >
             Excluir
           </button>

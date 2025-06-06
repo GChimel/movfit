@@ -82,6 +82,7 @@ export default function Home() {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
+    toast.success("Sessão finalizada com sucesso!");
     router.push("/");
   };
 
@@ -235,7 +236,7 @@ export default function Home() {
               {benefits.map((b, i) => (
                 <div
                   key={i}
-                  className="bg-secoundary-background rounded-lg p-6 flex flex-col gap-2 border border-secoundary-gray"
+                  className="bg-secoundary-background rounded-md p-6 flex flex-col gap-2 border border-secoundary-gray"
                 >
                   <span className="text-3xl mb-2" aria-hidden>
                     {b.icon}
@@ -256,7 +257,7 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[400px] overflow-y-auto">
               {testimonials.length === 0 ? (
-                <div className="bg-secoundary-background rounded-lg p-6 flex flex-col gap-2 border border-secoundary-gray text-white">
+                <div className="bg-secoundary-background rounded-md p-6 flex flex-col gap-2 border border-secoundary-gray text-white">
                   <span className="text-xl mb-2 text-primary-green">
                     Sem depoimentos
                   </span>
@@ -268,7 +269,7 @@ export default function Home() {
                 testimonials.map((t, i) => (
                   <div
                     key={i}
-                    className="bg-secoundary-background rounded-lg p-6 gap-2 flex flex-col border border-secoundary-gray text-white"
+                    className="bg-secoundary-background rounded-md p-6 gap-2 flex flex-col border border-secoundary-gray text-white"
                   >
                     <span className="text-xl text-primary-green">
                       {t.user.name}
@@ -299,7 +300,7 @@ export default function Home() {
               {gallery.map((src, i) => (
                 <div
                   key={i}
-                  className="rounded-lg overflow-hidden border-2 border-secoundary-gray hover:border-primary-green transition"
+                  className="rounded-md overflow-hidden border-2 border-secoundary-gray hover:border-primary-green transition"
                 >
                   <Image
                     src={src}

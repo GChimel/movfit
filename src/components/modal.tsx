@@ -23,12 +23,13 @@ export default function Modal({
         onClick={onClose}
       ></div>
 
-      <div className="relative z-50 bg-primary-gray text-white rounded-xl shadow-xl w-full max-w-lg p-6 animate-fade-in">
+      <div className="relative z-50 bg-primary-gray text-white rounded-md shadow-xl w-full max-w-lg p-6 animate-fade-in">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-bold text-primary-green">{title}</h2>
           <button
-            onClick={onClose}
             title="Fechar"
+            onClick={onClose}
+            type="button"
             className="text-gray-400 cursor-pointer hover:text-white transition"
             aria-label="Fechar modal"
           >

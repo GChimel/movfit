@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -59,17 +60,14 @@ export default function ResetPasswordPage() {
           onSubmit={handleSubmit(resetPassword)}
           className="flex flex-col gap-2"
         >
-          <input
-            type="password"
-            placeholder="Nova senha"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm"
+          <Input
             {...register("password")}
+            id="password"
+            type="password"
+            placeholder="Senha"
+            error={errors.password?.message}
+            label="Senha"
           />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.password.message}
-            </p>
-          )}
 
           <Button
             type="submit"

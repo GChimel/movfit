@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import Modal from "@/components/modal";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,6 +40,7 @@ export default function TestimonialsPage() {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
+    toast.success("Sessão finalizada com sucesso!");
     router.push("/");
   };
 
@@ -189,14 +191,14 @@ export default function TestimonialsPage() {
               <input
                 type="text"
                 placeholder="Buscar por nome ou conteúdo..."
-                className="bg-forth-gray w-80 text-sm px-3 py-1 rounded"
+                className="bg-forth-gray w-80 text-sm px-3 py-1 rounded-md"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-forth-gray rounded px-2 py-1 h-9 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 h-9 text-sm"
               >
                 <option value="createdAt">Data</option>
                 <option value="content">Conteúdo</option>
@@ -204,7 +206,7 @@ export default function TestimonialsPage() {
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-                className="bg-forth-gray rounded px-2 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 text-sm"
               >
                 <option value="asc">A-Z</option>
                 <option value="desc">Z-A</option>
@@ -212,7 +214,7 @@ export default function TestimonialsPage() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-lg shadow-sm">
+          <div className="overflow-hidden rounded-md shadow-sm">
             <table className="min-w-full divide-y divide-gray-900">
               <thead className="bg-forth-gray">
                 <tr>
@@ -302,17 +304,13 @@ export default function TestimonialsPage() {
           onSubmit={handleSubmit(handleSubmitForm)}
           className="gap-2 flex flex-col"
         >
-          <input
+          <Input
             {...register("content")}
             type="text"
             placeholder="Depoimento"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm"
+            error={errors.content?.message}
+            className="rounded-md"
           />
-          {errors.content && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.content.message}
-            </p>
-          )}
 
           <Button
             type="submit"
@@ -344,7 +342,7 @@ export default function TestimonialsPage() {
         <div className="flex justify-end mt-2">
           <button
             onClick={() => handleDelete(isDeletingId!)}
-            className="px-4 py-2 rounded bg-red-600 cursor-pointer text-red-100 font-semibold hover:bg-red-700 hover:text-red-500"
+            className="px-4 py-2 rounded-md bg-red-600 cursor-pointer text-red-100 font-semibold hover:bg-red-700 hover:text-red-500"
           >
             Excluir
           </button>

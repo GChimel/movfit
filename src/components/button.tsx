@@ -43,7 +43,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <Link href={href} className={styles} target={target} rel={rel}>
           {isLoading ? (
-            <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            <div className="mr-2 h-4 w-4 animate-spin rounded-md border-2 border-current border-t-transparent" />
           ) : null}
           {children}
         </Link>
@@ -53,7 +53,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button className={styles} ref={ref} {...props}>
         {isLoading ? (
-          <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          <div className="mr-2 h-4 w-4 animate-spin rounded-md border-2 border-current border-t-transparent" />
         ) : null}
         {children}
       </button>

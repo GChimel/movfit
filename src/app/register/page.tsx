@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/button";
+import { Input } from "@/components/input";
 import { Redirect } from "@/components/redirect";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -84,57 +85,32 @@ export default function RegisterPage() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Nome
-              </label>
-              <input
-                {...register("name")}
-                id="name"
-                type="text"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 rounded-t-md focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm lg:text-base"
-                placeholder="Nome"
-              />
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="email" className="sr-only">
-                E-mail
-              </label>
-              <input
-                {...register("email")}
-                id="email"
-                type="email"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm lg:text-base"
-                placeholder="E-mail"
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                {...register("password")}
-                id="password"
-                type="password"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-100 rounded-b-md focus:outline-none focus:ring-primary-green focus:border-primary-green focus:z-10 sm:text-sm lg:text-base"
-                placeholder="Senha"
-              />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+            <Input
+              {...register("name")}
+              id="name"
+              type="text"
+              placeholder="Nome"
+              error={errors.name?.message}
+              label="Nome"
+              className="rounded-md-t-md"
+            />
+            <Input
+              {...register("email")}
+              id="email"
+              type="email"
+              placeholder="E-mail"
+              error={errors.email?.message}
+              label="E-mail"
+            />
+            <Input
+              {...register("password")}
+              id="password"
+              type="password"
+              placeholder="Senha"
+              error={errors.password?.message}
+              label="Senha"
+              className="rounded-md-b-md"
+            />
           </div>
 
           <div className="flex items-center justify-center ">

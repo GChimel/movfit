@@ -2,6 +2,7 @@ import { LogOutIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { Button } from "./button";
 
 export default function AdminHeader() {
@@ -9,6 +10,7 @@ export default function AdminHeader() {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
+    toast.success("Sessão finalizada com sucesso!");
     router.push("/");
   };
 
