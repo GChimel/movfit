@@ -54,7 +54,7 @@ export default function RegisterPage() {
         return;
       }
 
-      router.push("/admin");
+      router.push("/testimonials");
       toast.success("Registro e login realizado com sucesso");
     } catch (error) {
       console.error(error);

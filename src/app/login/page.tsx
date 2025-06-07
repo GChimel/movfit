@@ -6,6 +6,7 @@ import Modal from "@/components/modal";
 import { Redirect } from "@/components/redirect";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -89,8 +90,14 @@ export default function LoginPage() {
       setCredentialError(false);
       setValueForgotPassword("email", "");
     } catch (error) {
-      console.error("Error details:", error);
-      toast.error("Erro inesperado");
+      if (error instanceof AxiosError) {
+        if (error.status === 404) {
+          toast.error("Não existe nenhum usuário com esse e-mail!");
+        }
+      } else {
+        console.error("Error details:", error);
+        toast.error("Erro inesperado");
+      }
     }
   };
 

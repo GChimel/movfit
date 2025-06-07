@@ -207,10 +207,26 @@ export default function Home() {
             <Button
               className="font-semibold px-6 py-2 h-12"
               variant="default"
-              href="/register"
-              title="Teste grátis"
+              href={
+                !session
+                  ? "/register"
+                  : session.user.role === "ADMIN"
+                  ? "/admin"
+                  : "/testimonials"
+              }
+              title={
+                !session
+                  ? "Crie sua conta gratuitamente"
+                  : session.user.role === "ADMIN"
+                  ? "Área de gestão"
+                  : "Depoimentos"
+              }
             >
-              Teste grátis
+              {!session
+                ? "Teste grátis"
+                : session.user.role === "ADMIN"
+                ? "Área de gestão"
+                : "Depoimentos"}
             </Button>
             <Button
               title="Fale conosco"
