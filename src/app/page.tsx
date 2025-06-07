@@ -1,7 +1,8 @@
 "use client";
 
-import assets from "@/app/assets/images";
+import { images } from "@/app/assets/images";
 import { Button } from "@/components/button";
+import Spinner from "@/components/spinner";
 import api from "@/lib/api";
 import { LogOutIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
@@ -68,10 +69,10 @@ const benefits = [
 ];
 
 const gallery = [
-  assets.gallery1,
-  assets.gallery2,
-  assets.gallery3,
-  assets.gallery4,
+  images.gallery1,
+  images.gallery2,
+  images.gallery3,
+  images.gallery4,
 ];
 
 export default function Home() {
@@ -104,7 +105,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-white flex flex-col scroll-smooth">
-      {/* Header */}
       <header className="fixed top-0 z-50 w-full px-4 py-3 scroll-mt-24 flex items-center justify-between bg-background border-b border-secoundary-gray">
         <div className="flex items-center gap-14">
           <span className="text-primary-green font-bold  text-xl">movefit</span>
@@ -156,21 +156,25 @@ export default function Home() {
                 type="button"
                 title="Minha conta"
                 variant="default"
-                href="/testimonials"
+                className="font-bold"
+                href={
+                  session.user.role === "ADMIN" ? "/admin" : "/testimonials"
+                }
               >
-                Minha conta
+                {session.user.role === "ADMIN" ? "Gerencial" : "Depoimentos"}
               </Button>
             </>
           ) : (
             <>
               <Button type="button" title="Login" variant="ghost" href="/login">
-                Login
+                Entrar
               </Button>
               <Button
                 type="button"
                 title="Teste grátis"
                 variant="default"
                 href="/register"
+                className="font-bold"
               >
                 Teste grátis
               </Button>
@@ -179,14 +183,14 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero */}
       <main className="flex flex-col min-h-screen">
         <section
           id="inicio"
-          className="pt-24 flex flex-col items-center justify-center text-center py-12 px-4 min-h-screen relative"
+          className="pt-24 flex flex-col items-center justify-center text-center py-12 px-4 min-h-screen"
           style={{
-            background:
-              "radial-gradient(circle, rgba(162, 210, 96, 0.06) 0%, #080F17 100%)",
+            backgroundImage: `
+              linear-gradient(to bottom, #080F17 0%, #080F17 70%, #132417 100%)
+            `,
           }}
         >
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
@@ -221,14 +225,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Dashboard flutuando entre seções */}
         <div className="relative z-30 flex justify-center -mt-40">
           <div className="w-full max-w-[90vw] md:max-w-5xl">
             <DashboardExample />
           </div>
         </div>
 
-        {/* Benefícios */}
         <section id="beneficios" className="py-16 px-4 bg-background">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-8">Benefícios</h2>
@@ -249,20 +251,23 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Depoimentos */}
         <section id="depoimentos" className="py-16 px-4 bg-background">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-8  text-white">
               O que dizem nossos usuários
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-h-[400px] overflow-y-auto">
-              {testimonials.length === 0 ? (
+              {isLoading ? (
+                <div className="md:col-span-3 grid place-items-center">
+                  <Spinner />
+                </div>
+              ) : testimonials.length === 0 ? (
                 <div className="bg-secoundary-background rounded-md p-6 flex flex-col gap-2 border border-secoundary-gray text-white">
                   <span className="text-xl mb-2 text-primary-green">
                     Sem depoimentos
                   </span>
                   <p className="text-gray-400 text-sm">
-                    "Registre-se para deixar um depoimento"
+                    &quot;Registre-se para deixar um depoimento&quot;
                   </p>
                 </div>
               ) : (
@@ -280,7 +285,7 @@ export default function Home() {
                         className="text-gray-400 text-sm"
                         style={{ overflowWrap: "break-word" }}
                       >
-                        "{t.content}"
+                        &quot;{t.content}&quot;
                       </p>
                     </div>
                   </div>
@@ -290,7 +295,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Galeria de imagens */}
         <section id="galeria" className="py-16 px-4 bg-background">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-8">
@@ -316,7 +320,6 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="w-full py-6 px-4 bg-background border-t border-secoundary-gray flex flex-col md:flex-row items-center justify-between gap-4">
         <span className="text-primary-green  font-bold font-sans text-3xl">
           movefit

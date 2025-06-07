@@ -35,7 +35,13 @@ export default function AdminHeader() {
           Sair
           <LogOutIcon size={20} />
         </Button>
-        <Button type="button" title="Minha conta" variant="default" href="/">
+        <Button
+          type="button"
+          title="Página inícial"
+          variant="default"
+          href="/"
+          className="font-bold w-32 text-sm md:w-36"
+        >
           Página inícial
         </Button>
       </div>

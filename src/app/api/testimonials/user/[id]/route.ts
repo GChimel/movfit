@@ -1,8 +1,13 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
-  if (!params.id) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+
+  if (!id) {
     return NextResponse.json(
       { error: "ID do usuário não fornecido" },
       { status: 400 }
@@ -11,13 +16,11 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
 
   try {
     const testimonials = await prisma.testimonial.findMany({
-      where: { userId: params.id },
+      where: { userId: id },
       orderBy: { createdAt: "desc" },
       include: {
         user: {
-          select: {
-            name: true,
-          },
+          select: { name: true },
         },
       },
     });

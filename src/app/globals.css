@@ -39,6 +39,7 @@ button:focus,
 a:focus {
   outline: 2px solid #c1f17e;
   outline-offset: 2px;
+  border-radius: 2px;
 }
 
 a {

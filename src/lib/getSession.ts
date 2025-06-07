@@ -1,4 +1,3 @@
-// src/lib/getSession.ts
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 

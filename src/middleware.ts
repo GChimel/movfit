@@ -3,23 +3,20 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req) {
-    const token = req.nextauth.token;
-    const isAuth = !!token;
+    const isAuth = !!req.nextauth.token;
     const isAuthPage =
       req.nextUrl.pathname.startsWith("/login") ||
       req.nextUrl.pathname.startsWith("/forgot-password");
 
     if (isAuthPage) {
       if (isAuth) {
-        // Redirect to appropriate page based on role
         const redirectUrl =
-          token?.role === "ADMIN" ? "/admin" : "/testimonials";
+          req.nextauth.token?.role === "ADMIN" ? "/admin" : "/testimonials";
         return NextResponse.redirect(new URL(redirectUrl, req.url));
       }
       return null;
     }
 
-    // Protect testimonials route
     if (req.nextUrl.pathname.startsWith("/testimonials")) {
       if (!isAuth) {
         let from = req.nextUrl.pathname;
@@ -32,7 +29,6 @@ export default withAuth(
       }
     }
 
-    // Protect admin routes
     if (req.nextUrl.pathname.startsWith("/admin")) {
       if (!isAuth) {
         let from = req.nextUrl.pathname;
@@ -44,8 +40,7 @@ export default withAuth(
         );
       }
 
-      // Check if user is admin
-      if (token?.role !== "ADMIN") {
+      if (req.nextauth.token?.role !== "ADMIN") {
         return NextResponse.redirect(new URL("/testimonials", req.url));
       }
     }
@@ -54,7 +49,8 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => true, // We'll handle authorization in the middleware function
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      authorized: ({ token }) => true,
     },
   }
 );

@@ -3,7 +3,7 @@ import gallery2 from "./gallery2.png";
 import gallery3 from "./gallery3.png";
 import gallery4 from "./gallery4.png";
 
-export default {
+export const images = {
   gallery1,
   gallery2,
   gallery3,

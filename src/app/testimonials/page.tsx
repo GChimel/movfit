@@ -3,13 +3,14 @@
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Modal from "@/components/modal";
+import Spinner from "@/components/spinner";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Testimonial } from "@prisma/client";
 import { LogOutIcon, Pencil, Trash } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -38,18 +39,6 @@ export default function TestimonialsPage() {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  const handleLogout = async () => {
-    await signOut({ redirect: false });
-    toast.success("Sessão finalizada com sucesso!");
-    router.push("/");
-  };
-
-  useEffect(() => {
-    if (session?.user?.id) {
-      fetchTestimonials();
-    }
-  }, [session?.user?.id]);
-
   const {
     register,
     handleSubmit,
@@ -59,7 +48,13 @@ export default function TestimonialsPage() {
     resolver: zodResolver(validation),
   });
 
-  const fetchTestimonials = async () => {
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    toast.success("Sessão finalizada com sucesso!");
+    router.push("/");
+  };
+
+  const fetchTestimonials = useCallback(async () => {
     if (!session?.user?.id) {
       setIsLoading(false);
       toast.error("Usuário não autenticado");
@@ -72,16 +67,19 @@ export default function TestimonialsPage() {
       );
       setTestimonials(response.data);
       setFiltered(response.data);
-      toast.success("Depoimentos carregados com sucesso");
-    } catch (error: any) {
-      console.error(error);
-      const errorMessage =
-        error.response?.data?.error || "Erro ao carregar os depoimentos";
-      toast.error(errorMessage);
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao carregar os depoimentos");
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [session?.user?.id]);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetchTestimonials();
+    }
+  }, [session?.user?.id, fetchTestimonials]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -90,6 +88,7 @@ export default function TestimonialsPage() {
       setIsDeleting(false);
       setTestimonials((prev) => prev.filter((t) => t.id !== id));
     } catch (err) {
+      console.error(err);
       toast.error("Erro ao excluir depoimento");
     }
   };
@@ -128,6 +127,7 @@ export default function TestimonialsPage() {
         setIsModalOpen(false);
       }
     } catch (err) {
+      console.error(err);
       toast.error("Erro ao criar depoimento");
     }
   };
@@ -166,39 +166,48 @@ export default function TestimonialsPage() {
             Sair
             <LogOutIcon size={20} />
           </Button>
-          <Button title="Página inicial" variant="default" href="/">
+          <Button
+            title="Página inicial"
+            className="font-bold w-32 text-sm md:w-36"
+            variant="default"
+            href="/"
+          >
             Página inicial
           </Button>
         </div>
       </header>
-      <main className="flex flex-col items-center justify-center p-8">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6">
+
+      <main className="flex flex-col items-center justify-center px-4 sm:px-8 py-6">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 text-center">
           Seus depoimentos
         </h1>
-        <div className="max-w-4xl w-full">
-          <div className="mb-4 flex flex-wrap justify-between items-center gap-4">
+
+        <div className="w-full max-w-4xl">
+          <div className="mb-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <Button
               type="button"
               disabled={isLoading}
               variant="default"
               title="Clique para criar um depoimento"
               onClick={() => setIsModalOpen(true)}
+              className="w-full md:w-44"
             >
               {isLoading ? "Carregando..." : "Novo depoimento"}
             </Button>
 
-            <div className="flex gap-2">
-              <input
+            <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+              <Input
                 type="text"
+                variant="dark"
                 placeholder="Buscar por nome ou conteúdo..."
-                className="bg-forth-gray w-80 text-sm px-3 py-1 rounded-md"
+                className="min-w-0 w-full sm:min-w-60"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-forth-gray rounded-md px-2 py-1 h-9 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 h-9 text-sm text-white w-full sm:w-auto sm:h-auto"
               >
                 <option value="createdAt">Data</option>
                 <option value="content">Conteúdo</option>
@@ -206,7 +215,7 @@ export default function TestimonialsPage() {
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-                className="bg-forth-gray rounded-md px-2 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 h-9 text-sm text-white w-full sm:w-auto sm:h-auto"
               >
                 <option value="asc">A-Z</option>
                 <option value="desc">Z-A</option>
@@ -214,27 +223,33 @@ export default function TestimonialsPage() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-md shadow-sm">
+          <div className="overflow-x-auto rounded-md shadow-sm">
             <table className="min-w-full divide-y divide-gray-900">
               <thead className="bg-forth-gray">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-100 uppercase whitespace-nowrap">
                     Depoimento
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-100 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-gray-100 uppercase whitespace-nowrap">
                     Data
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-100 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-gray-100 uppercase whitespace-nowrap">
                     Ações
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {filtered.length === 0 ? (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={3} className="px-4 py-8 text-center">
+                      <Spinner />
+                    </td>
+                  </tr>
+                ) : filtered.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={5}
-                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                      colSpan={3}
+                      className="px-4 py-4 text-sm text-gray-500 text-center"
                     >
                       Nenhum depoimento encontrado.
                     </td>
@@ -243,21 +258,21 @@ export default function TestimonialsPage() {
                   filtered.map((t) => (
                     <tr key={t.id} className="bg-tertiary-gray">
                       <td
+                        className="px-4 py-3 text-sm text-gray-100 max-w-[300px] truncate"
                         title={t.content}
-                        className="px-6 py-4 text-sm max-w-96 truncate text-gray-100"
                       >
                         {t.content}
                       </td>
                       <td
+                        className="px-4 py-3 text-sm text-gray-100 text-center w-[120px]"
                         title={new Date(t.createdAt).toLocaleDateString(
                           "pt-BR"
                         )}
-                        className="px-6 py-4 text-sm w-32 text-center text-gray-100"
                       >
                         {new Date(t.createdAt).toLocaleDateString("pt-BR")}
                       </td>
-                      <td className="px-6 py-4 w-16 text-sm text-gray-100">
-                        <div className="flex gap-4">
+                      <td className="px-4 py-3 text-sm w-20 text-gray-100 text-center">
+                        <div className="flex justify-center gap-4">
                           <button
                             type="button"
                             title="Editar depoimento"
@@ -266,9 +281,9 @@ export default function TestimonialsPage() {
                               setValue("content", t.content);
                               setIsModalOpen(true);
                             }}
-                            className="text-blue-400 text-xs cursor-pointer hover:text-blue-600"
+                            className="text-blue-400 hover:text-blue-600 cursor-pointer"
                           >
-                            <Pencil size={16} />
+                            <Pencil size={18} />
                           </button>
                           <button
                             type="button"
@@ -277,9 +292,9 @@ export default function TestimonialsPage() {
                               setIsDeleting(true);
                               setIsDeletingId(t.id);
                             }}
-                            className="text-red-400 text-xs cursor-pointer hover:text-red-600"
+                            className="text-red-400 hover:text-red-600 cursor-pointer"
                           >
-                            <Trash size={16} />
+                            <Trash size={18} />
                           </button>
                         </div>
                       </td>
@@ -291,7 +306,6 @@ export default function TestimonialsPage() {
           </div>
         </div>
       </main>
-
       <Modal
         title={editingTestimonial ? "Editar depoimento" : "Criar depoimento"}
         isOpen={isModalOpen}

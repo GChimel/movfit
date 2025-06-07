@@ -1,9 +1,6 @@
 export default function DashboardExample() {
   return (
-    // <div className="w-[750px] h-[450px] rounded-md-2xl bg-forth-gray shadow-2xl flex overflow-hidden border border-[#2c3742]">
     <div className="w-full md:w-[750px] h-auto md:h-[450px] rounded-md bg-forth-gray shadow-2xl flex flex-col md:flex-row overflow-hidden border border-[#2c3742] mx-auto">
-      {/* Sidebar */}
-      {/* <aside className="w-48 bg-forth-gray flex flex-col p-4 gap-4 "> */}
       <aside className="w-full md:w-48 bg-forth-gray flex flex-col p-4 gap-4">
         <span className="text-primary-green font-bold text-2xl ">movefit</span>
         <div className="bg-tertiary-gray h-6 rounded-md" />
@@ -11,26 +8,22 @@ export default function DashboardExample() {
         <div className="bg-tertiary-gray h-6 rounded-md" />
         <div className="bg-tertiary-gray h-6 w-16 rounded-md" />
       </aside>
-      {/* Main Content */}
-      {/* <main className="flex-1 p-4 flex flex-col justify-end"> */}
       <main className="flex-1 p-4 flex flex-col justify-end">
         <div className="mt-auto mb-2 flex justify-end">
           <div className="bg-primary-green w-16 h-6 rounded-md" />
         </div>
         <div className="flex gap-2 flex-col bg-tertiary-gray p-6 rounded-md-xl">
           <div className="bg-forth-gray h-10 w-40 rounded-md" />
-          <div className="bg-forth-gray h-4 w-80 rounded-md" />
-          <div className="bg-forth-gray h-4 w-80 rounded-md" />
+          <div className="bg-forth-gray h-4 md:w-80 rounded-md" />
+          <div className="bg-forth-gray h-4 md:w-80 rounded-md" />
           <div className="bg-forth-gray h-4 w-40 rounded-md" />
-          <div className="flex gap-2">
-            {/* Revenue Card */}
-            <div className="bg-forth-gray rounded-md-xl p-6 w-64 shadow-lg">
+          <div className="flex gap-2 flex-col md:flex-row">
+            <div className="bg-forth-gray rounded-md-xl p-6 w-full md:w-64 shadow-lg">
               <div className="text-gray-400 text-xs mb-2">Revenue</div>
               <div className="flex items-end gap-2">
                 <span className="text-2xl font-bold">45,000</span>
                 <span className="text-primary-green text-xs">+3%</span>
               </div>
-              {/* Mock Chart */}
               <svg
                 width="100%"
                 height="60"
@@ -56,14 +49,12 @@ export default function DashboardExample() {
                 <span>Mar</span>
               </div>
             </div>
-            {/* Profit Card */}
-            <div className="bg-forth-gray rounded-md p-6 w-64 shadow-lg">
+            <div className="bg-forth-gray rounded-md p-6 w-full md:w-64 shadow-lg">
               <div className="text-gray-400 text-xs mb-2">Profit</div>
               <div className="flex items-end gap-2">
                 <span className="text-2xl font-bold">60,000</span>
                 <span className="text-primary-green text-xs">+10%</span>
               </div>
-              {/* Mock Bar Chart */}
               <svg
                 width="100%"
                 height="60"

@@ -115,7 +115,7 @@ export default function LoginPage() {
               type="email"
               placeholder="E-mail"
               error={errors.email?.message}
-              className="rounded-md-t-md"
+              className="rounded-t-md"
               label="E-mail"
             />
             <Input
@@ -125,7 +125,7 @@ export default function LoginPage() {
               placeholder="Senha"
               error={errors.password?.message}
               label="Senha"
-              className="rounded-md-b-md"
+              className="rounded-b-md"
             />
           </div>
 
@@ -174,12 +174,13 @@ export default function LoginPage() {
             </p>
 
             <Input
-              {...register("email")}
+              {...registerForgotPassword("email")}
               id="forgot-password-email"
               type="email"
               placeholder="E-mail"
               error={errorsForgotPassword.email?.message}
               label="E-mail"
+              className="rounded-md"
             />
 
             <Button

@@ -5,6 +5,7 @@ import AdminHeader from "@/components/adminHeader";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import Modal from "@/components/modal";
+import Spinner from "@/components/spinner";
 import api from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil, Trash } from "lucide-react";
@@ -51,11 +52,10 @@ export default function AdminTestimonialsPage() {
       const response = await api.get<ResponseTestimonial[]>("/testimonials");
       setTestimonials(response.data);
       setIsLoading(false);
-      toast.success("Depoimentos carregados com sucesso");
     } catch (error) {
       console.error(error);
       setIsLoading(false);
-      toast.error("Erro ao carregar os depoimentos 😭 ");
+      toast.error("Erro ao carregar os depoimentos");
     }
   };
   useEffect(() => {
@@ -115,6 +115,7 @@ export default function AdminTestimonialsPage() {
       setIsDeleting(false);
       setTestimonials((prev) => prev.filter((t) => t.id !== id));
     } catch (err) {
+      console.error(err);
       toast.error("Erro ao excluir depoimento");
     }
   };
@@ -126,7 +127,6 @@ export default function AdminTestimonialsPage() {
     }
 
     try {
-      // Edicao de depoimento
       if (editingTestimonial) {
         await api.put("/testimonials", {
           id: editingTestimonial.id,
@@ -153,6 +153,7 @@ export default function AdminTestimonialsPage() {
         setIsModalOpen(false);
       }
     } catch (err) {
+      console.error(err);
       toast.error("Erro ao criar depoimento");
     }
   };
@@ -160,15 +161,18 @@ export default function AdminTestimonialsPage() {
   return (
     <div className="min-h-screen bg-background text-white flex flex-col">
       <AdminHeader />
-      <main className="flex flex-col items-center justify-center p-8">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6">Depoimentos</h1>
-        <div className="max-w-4xl w-full">
-          <div className="mb-4 flex flex-wrap justify-between items-center gap-4">
-            <div className="flex gap-2">
+      <main className="flex flex-col items-center justify-center px-4 sm:px-8 py-6">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 text-center">
+          Depoimentos
+        </h1>
+        <div className="w-full max-w-4xl">
+          <div className="mb-4 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
               <Button
                 type="button"
                 disabled={isLoading}
                 variant="default"
+                className="md:min-w-44"
                 title="Clique para criar um depoimento"
                 onClick={() => setIsModalOpen(true)}
               >
@@ -179,75 +183,72 @@ export default function AdminTestimonialsPage() {
                 type="button"
                 variant="default"
                 title="Clique para exportar para CSV"
+                className="md:min-w-44"
                 onClick={exportToCSV}
               >
                 Exportar para CSV
               </Button>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <Input
                 type="text"
                 variant="dark"
                 placeholder="Buscar por nome ou depoimento..."
                 value={search}
-                className="min-w-60"
                 onChange={(e) => setSearch(e.target.value)}
+                className="min-w-0 w-full sm:min-w-60"
               />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-forth-gray rounded-md px-2 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 text-sm h-9 sm:w-auto sm:h-auto text-white"
               >
-                <option value="createdAt" title="Filtrar por data">
-                  Data
-                </option>
-                <option value="name" title="Filtrar por nome">
-                  Nome
-                </option>
-                <option value="content" title="Filtrar por depoimento">
-                  Depoimento
-                </option>
+                <option value="createdAt">Data</option>
+                <option value="name">Nome</option>
+                <option value="content">Depoimento</option>
               </select>
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-                className="bg-forth-gray rounded-md px-2 py-1 text-sm"
+                className="bg-forth-gray rounded-md px-2 py-1 text-sm h-9 sm:w-auto sm:h-auto text-white"
               >
-                <option value="asc" title="Ordenar de A-Z">
-                  A-Z
-                </option>
-                <option value="desc" title="Ordenar de Z-A">
-                  Z-A
-                </option>
+                <option value="asc">A-Z</option>
+                <option value="desc">Z-A</option>
               </select>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-md shadow-sm">
-            <table className="min-w-full divide-y divide-gray-900">
+          <div className="overflow-x-auto rounded-md shadow-sm">
+            <table className="min-w-full table-auto divide-y divide-gray-900">
               <thead className="bg-forth-gray">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-100 uppercase whitespace-nowrap">
                     Nome
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-100 uppercase whitespace-nowrap">
                     Depoimento
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-100 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-gray-100 uppercase whitespace-nowrap">
                     Data
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-100 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-center text-xs font-medium text-gray-100 uppercase whitespace-nowrap">
                     Ações
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {filtered.length === 0 ? (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={4} className="px-4 py-8 text-center">
+                      <Spinner />
+                    </td>
+                  </tr>
+                ) : filtered.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={5}
-                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                      colSpan={4}
+                      className="px-4 py-4 text-sm text-gray-500 text-center"
                     >
                       Nenhum depoimento encontrado.
                     </td>
@@ -256,27 +257,27 @@ export default function AdminTestimonialsPage() {
                   filtered.map((t) => (
                     <tr key={t.id} className="bg-tertiary-gray">
                       <td
+                        className="px-4 py-3 text-sm text-gray-100 whitespace-nowrap max-w-[180px] truncate"
                         title={t.user.name}
-                        className="px-6 py-4 text-sm text-gray-100"
                       >
                         {t.user.name}
                       </td>
                       <td
+                        className="px-4 py-3 text-sm text-gray-100 whitespace-nowrap max-w-[300px] truncate"
                         title={t.content}
-                        className="px-6 py-4 text-sm max-w-96 truncate text-gray-100"
                       >
                         {t.content}
                       </td>
                       <td
+                        className="px-4 py-3 text-sm text-gray-100 text-center w-[120px] whitespace-nowrap"
                         title={new Date(t.createdAt).toLocaleDateString(
                           "pt-BR"
                         )}
-                        className="px-6 py-4 text-sm w-32 text-center text-gray-100"
                       >
                         {new Date(t.createdAt).toLocaleDateString("pt-BR")}
                       </td>
-                      <td className="px-6 py-4 w-16 text-sm text-gray-100">
-                        <div className="flex gap-4">
+                      <td className="px-4 py-3 text-sm w-20 text-gray-100 text-center">
+                        <div className="flex justify-center gap-4">
                           <button
                             type="button"
                             title="Editar depoimento"
@@ -285,9 +286,9 @@ export default function AdminTestimonialsPage() {
                               setValue("content", t.content);
                               setIsModalOpen(true);
                             }}
-                            className="text-blue-400 text-xs cursor-pointer hover:text-blue-600"
+                            className="text-blue-400 hover:text-blue-600 cursor-pointer"
                           >
-                            <Pencil size={16} />
+                            <Pencil size={18} />
                           </button>
                           <button
                             type="button"
@@ -296,9 +297,9 @@ export default function AdminTestimonialsPage() {
                               setIsDeleting(true);
                               setIsDeletingId(t.id);
                             }}
-                            className="text-red-400 text-xs cursor-pointer hover:text-red-600"
+                            className="text-red-400 hover:text-red-600 cursor-pointer"
                           >
-                            <Trash size={16} />
+                            <Trash size={18} />
                           </button>
                         </div>
                       </td>
@@ -310,7 +311,6 @@ export default function AdminTestimonialsPage() {
           </div>
         </div>
       </main>
-
       <Modal
         title={editingTestimonial ? "Editar depoimento" : "Criar depoimento"}
         isOpen={isModalOpen}

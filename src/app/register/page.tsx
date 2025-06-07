@@ -92,7 +92,7 @@ export default function RegisterPage() {
               placeholder="Nome"
               error={errors.name?.message}
               label="Nome"
-              className="rounded-md-t-md"
+              className="rounded-t-md"
             />
             <Input
               {...register("email")}
@@ -109,7 +109,7 @@ export default function RegisterPage() {
               placeholder="Senha"
               error={errors.password?.message}
               label="Senha"
-              className="rounded-md-b-md"
+              className="rounded-b-md"
             />
           </div>
 
