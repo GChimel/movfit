@@ -5,7 +5,7 @@ Teste técnico para vaga de desenvolvedor junior 2 - Gustavo Chimel
 ## Pré-requisitos
 
 - Node.js 20.x ou superior
-- npm ou yarn
+- npm
 - Docker e Docker Compose (opcional)
 
 ## Instalação e Execução
@@ -19,7 +19,7 @@ git clone https://github.com/GChimel/ueek
 cd ueek
 ```
 
-2. As variáveis de ambiente já estão configuradas no arquivo `docker-compose.yml`. Se necessário, você pode modificar os seguintes valores:
+2. As variáveis de ambiente já estão configuradas no arquivo `docker-compose.yml`. Apenas atualize as variáveis referente ao e-mail (enviadas no arquivo txt).
 
 ```yaml
 environment:
@@ -47,7 +47,7 @@ A aplicação estará disponível em `http://localhost:3000`
 1. Clone o repositório:
 
 ```bash
-git clone [URL_DO_REPOSITÓRIO]
+git clone https://github.com/GChimel/ueek
 cd ueek
 ```
 
@@ -72,6 +72,7 @@ NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="sua-chave-secreta-aqui"
 
 # Configurações do EmailJS
+<!--  Utilize as variáveis que enviei no arquivo TXT -->
 EMAIL_JS_SERVICE_ID="seu-service-id"
 EMAIL_JS_TEMPLATE_ID="seu-template-id"
 EMAIL_JS_USER_ID="seu-user-id"
