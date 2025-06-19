@@ -1,6 +1,12 @@
-# UEEK - Teste técnico
+# Movefit Landing page
 
-Teste técnico para vaga de desenvolvedor junior 2 - Gustavo Chimel
+Lading page que conta com:
+
+- Login de administrador
+- Registro de usuários
+- Criação de depoimentos
+- Gerenciamento de depoimentos e exportação de dados .csv (admin)
+- Recuperação de senha com e-mail
 
 ## Pré-requisitos
 
@@ -15,15 +21,15 @@ Teste técnico para vaga de desenvolvedor junior 2 - Gustavo Chimel
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/GChimel/ueek
-cd ueek
+git clone https://github.com/GChimel/movfit
+cd movfit
 ```
 
 2. As variáveis de ambiente já estão configuradas no arquivo `docker-compose.yml`. Apenas atualize as variáveis referente ao e-mail (enviadas no arquivo txt).
 
 ```yaml
 environment:
-  - DATABASE_URL=postgresql://postgres:postgres@db:5432/ueek_test
+  - DATABASE_URL=postgresql://postgres:postgres@db:5432/movfit
   - NODE_ENV=production
   - NEXTAUTH_URL=http://localhost:3000
   - NEXTAUTH_SECRET=your-secret-key-here
@@ -47,8 +53,8 @@ A aplicação estará disponível em `http://localhost:3000`
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/GChimel/ueek
-cd ueek
+git clone https://github.com/GChimel/movfit
+cd movfit
 ```
 
 2. Instale o PostgreSQL 16.x em sua máquina
@@ -58,21 +64,20 @@ cd ueek
 3. Crie o banco de dados:
 
 ```bash
-createdb ueek_test
+createdb movfit
 ```
 
 4. Configure o arquivo `.env` na raiz do projeto:
 
 ```env
 # Configurações do Banco de Dados
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/ueek_test"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/movfit"
 
 # Configurações do NextAuth
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="sua-chave-secreta-aqui"
 
 # Configurações do EmailJS
-<!--  Utilize as variáveis que enviei no arquivo TXT -->
 EMAIL_JS_SERVICE_ID="seu-service-id"
 EMAIL_JS_TEMPLATE_ID="seu-template-id"
 EMAIL_JS_USER_ID="seu-user-id"
@@ -124,8 +129,8 @@ A aplicação estará disponível em `http://localhost:3000`
 ### Configurações do Banco de Dados
 
 - `DATABASE_URL`: URL de conexão com o PostgreSQL
-  - Com Docker: `postgresql://postgres:postgres@db:5432/ueek_test`
-  - Sem Docker: `postgresql://postgres:postgres@localhost:5432/ueek_test`
+  - Com Docker: `postgresql://postgres:postgres@db:5432/movfit`
+  - Sem Docker: `postgresql://postgres:postgres@localhost:5432/movfit`
 
 ### Configurações do NextAuth
 
@@ -134,7 +139,7 @@ A aplicação estará disponível em `http://localhost:3000`
 
 ### Configurações do EmailJS
 
-É o provedor que utilizei para realizar o envio de e-mail para redefinir a senha do usuário. Para poupar tempo enviei juntamente do link desse repositório um arquivo TXT com as chaves para você utilizarem nesse teste. Não precisa se preocupar, criei uma conta nova para isso!
+É o provedor que utilizo para o envio de e-mails na parte de recuperação de senha. Caso vá utilizar utilize suas chaves.
 
 - `EMAIL_JS_SERVICE_ID`: ID do serviço do EmailJS
 - `EMAIL_JS_TEMPLATE_ID`: ID do template do EmailJS
@@ -150,7 +155,7 @@ A aplicação estará disponível em `http://localhost:3000`
 
 Após executar o seed, você pode acessar o sistema como `administrador - dono da página` as seguintes credenciais:
 
-- Email: admin@ueek.com
+- Email: admin@admin.com
 - Senha: admin123
 
 ## Scripts Disponíveis

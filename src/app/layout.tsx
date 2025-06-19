@@ -15,8 +15,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Ueek teste - GC",
-  description: "Teste tecnico - Gustavo Chimel",
+  title: "Movfit",
+  description: "Gustavo Chimel",
 };
 
 export default function RootLayout({

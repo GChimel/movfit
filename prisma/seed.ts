@@ -5,14 +5,14 @@ const prisma = new PrismaClient();
 
 async function main() {
   const adminExists = await prisma.user.findFirst({
-    where: { email: "admin@ueek.com" },
+    where: { email: "admin@admin.com" },
   });
   if (!adminExists) {
     const hashedPassword = await bcrypt.hash("admin123", 10);
     await prisma.user.create({
       data: {
         name: "Admin",
-        email: "admin@ueek.com",
+        email: "admin@admin.com",
         password: hashedPassword,
         role: "ADMIN",
       },

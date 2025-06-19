@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ueek_test
+      - POSTGRES_DB=movfit
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,12 +22,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/ueek_test
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/movfit
       - NODE_ENV=production
       - NEXTAUTH_URL=http://localhost:3000
       - NEXTAUTH_SECRET=your-secret-key-here
       - HOSTNAME=0.0.0.0
-      # Adicione em seguida as chaves que enviei no arquivo txt
+      # Adicione suas chaves do EmailJS aqui
       - EMAIL_JS_SERVICE_ID=
       - EMAIL_JS_TEMPLATE_ID=
       - EMAIL_JS_USER_ID=

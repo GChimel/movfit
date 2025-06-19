@@ -17,8 +17,7 @@ import lockIcon from "../../public/icons/lock.svg";
 import DashboardExample from "../components/dashboard";
 import { ResponseTestimonial } from "./api/testimonials/route";
 
-const whatsLink =
-  "https://wa.me/5549988754177?text=Olá, vim pelo teste técnico do Gustavo!";
+const whatsLink = "https://wa.me/5542999231737?text=Olá, vim pela movfit!";
 
 const desc =
   "Uma ferramenta notável com suporte excepcional. Não poderia pedir mais.";
